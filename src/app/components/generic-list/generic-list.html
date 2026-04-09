@@ -1,0 +1,11 @@
+<label for="search">Wyszukiwarka:</label>
+<input type="text" id="text" aria-label="Search" aria-describedby="button-addon2" aria-autocomplete="list"
+       [formControl]="searchControl">
+
+@for (item of filteredItems(); track item[idKey()]) {
+  <div (click)="selectItem(item)">
+    {{ displayWith()(item) }}
+  </div>
+} @empty {
+  Brak wynikow wyszukiwania
+}

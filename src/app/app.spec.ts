@@ -2,6 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {App} from './app';
 import {By} from '@angular/platform-browser';
 import {GenericList} from './components/generic-list/generic-list';
+import {Employee} from './shared/models/employee.model';
 
 describe('App', () => {
   let fixture: ComponentFixture<App>;
@@ -57,7 +58,7 @@ describe('App', () => {
   it('should pass employees to generic-list', () => {
     fixture.detectChanges();
     const list = fixture.debugElement.query(By.directive(GenericList));
-    const component = list.componentInstance as GenericList<any>;
+    const component = list.componentInstance as GenericList<Employee>;
     expect(component.items()).toEqual(app.employees);
   });
 });

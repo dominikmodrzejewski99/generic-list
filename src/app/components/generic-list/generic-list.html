@@ -1,5 +1,5 @@
 <label for="search">Wyszukiwarka:</label>
-<input type="text" id="text" aria-label="Search" aria-describedby="button-addon2" aria-autocomplete="list"
+<input type="text" id="search" aria-label="Search"
        [formControl]="searchControl">
 
 @for (item of filteredItems(); track item[idKey()]) {

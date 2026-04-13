@@ -14,15 +14,15 @@ import {toSignal} from '@angular/core/rxjs-interop';
 })
 export class GenericList<T> {
 
-  public searchControl = new FormControl<string>('', {nonNullable: true})
+  protected searchControl = new FormControl<string>('', {nonNullable: true});
 
-  public items: InputSignal<T[]> = input.required<T[]>();
-  public idKey: InputSignal<keyof T & string> = input.required<keyof T & string>();
-  public displayWith: InputSignal<(item: T) => string> = input.required<(item: T) => string>();
-  public searchKeys: InputSignal<StringKeys<T>[]> = input.required<StringKeys<T>[]>();
+  public items = input.required<T[]>();
+  public idKey = input.required<keyof T & string>();
+  public displayWith = input.required<(item: T) => string>();
+  public searchKeys = input.required<StringKeys<T>[]>();
+  public itemSelected = output<T>();
 
-  public itemSelected: OutputEmitterRef<T> = output<T>();
-  public selectItem(item: T): void {
+  protected selectItem(item: T): void {
     this.itemSelected.emit(item);
   }
 
@@ -34,11 +34,18 @@ export class GenericList<T> {
     {initialValue: ''}
   );
 
-  public filteredItems: Signal<T[]> = computed(() => {
-    const lowerTerm = this.searchTerm().toLowerCase();
+  protected filteredItems: Signal<T[]> = computed(() => {
+    const lowerTerm = this.searchTerm().toLowerCase().trim();
+
+    if (!lowerTerm) return this.items();
+
     return this.items().filter(item =>
-      this.searchKeys().some(key => (item[key] as string).toLowerCase().includes(lowerTerm))
+      this.searchKeys().some(key => {
+        const value = item[key];
+        return typeof value === 'string' && value.toLowerCase().includes(lowerTerm);
+      })
     );
+
   });
 
 }

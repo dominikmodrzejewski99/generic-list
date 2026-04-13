@@ -13,8 +13,8 @@ import {StringKeys} from './shared/models/types';
 })
 export class App {
 
-  public key: WritableSignal<keyof Employee & string> = signal<keyof Employee & string>('id');
-  public searchKeys: WritableSignal<StringKeys<Employee>[]> = signal<StringKeys<Employee>[]>(['name']);
+  public readonly key: keyof Employee & string = 'id';
+  public readonly searchKeys: StringKeys<Employee>[] = ['name'];
   public formatEmployee: (item: Employee) => string = (item: Employee) => item.name;
 
   public employees: Employee[] = [
